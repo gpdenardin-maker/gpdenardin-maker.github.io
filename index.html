@@ -9,15 +9,14 @@
     content="Portfólio profissional de Samanta Denardin: projetos, dados, automação, Power BI, PMO, mercado financeiro e transformação digital."
   />
   <style>
-    .slider {
- .slider {
+   .slider {
   position: relative;
   width: 100vw;
   height: 260px;
   overflow: hidden;
   margin-bottom: 30px;
 
-  /* ESSA LINHA É A CHAVE 🔥 */
+  /* full width real */
   margin-left: calc(50% - 50vw);
 }
       @media (max-width: 600px){
@@ -602,7 +601,9 @@
     }
   </style>
 </head>
-  <nav class="nav">
+<body>
+
+<nav class="nav">
     <div class="container nav-wrap">
       <a href="#topo" class="brand">
         <div class="brand-badge">SD</div>
@@ -863,7 +864,8 @@ e transformação digital.
   <li>Monitoramento de resultados por meio de NPS, dashboards e indicadores operacionais.</li>
   <li>Desenvolvimento de solução digital para apoio à expansão do projeto.</li>
 
-  <div class="highlight" style="margin-left: -20px;">
+ </ul>
+<div class="highlight">
  <strong>Destaque:</strong> projeto selecionado entre mais de 20.000 iniciativas, integrando o grupo dos 174 projetos escolhidos na ExpoFavela
 </div>
 </ul>
@@ -1078,8 +1080,7 @@ e transformação digital.
   <footer>
     © 2026 Samanta Denardin · Portfólio profissional
   </footer>
-</body>
-  <script>
+<script>
   const images = document.querySelectorAll(".slider img");
   let index = 0;
 
@@ -1089,4 +1090,6 @@ e transformação digital.
     images[index].classList.add("active");
   }, 2000);
 </script>
+
+</body>
 </html>
