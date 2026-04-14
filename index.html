@@ -495,6 +495,30 @@
       .menu{
         display:none;
       }
+      @keyframes flashGlow {
+  0% {
+    box-shadow: 0 0 0 rgba(230,184,92,0);
+  }
+  50% {
+    box-shadow: 0 0 18px rgba(230,184,92,0.6);
+  }
+  100% {
+    box-shadow: 0 0 0 rgba(230,184,92,0);
+  }
+}
+
+.flash {
+  animation: flashGlow 2s ease-in-out infinite;
+  border: 1px solid rgba(230,184,92,0.4);
+}
+      @keyframes textFlash {
+  0%,100% { opacity: 1; }
+  50% { opacity: 0.6; }
+}
+
+.flash strong {
+  animation: textFlash 2s infinite;
+}
     }
   </style>
 </head>
@@ -541,10 +565,7 @@ e transformação digital.
 
         <div class="stats">
 
-  <div class="stat">
-    <strong>+300</strong>
-    <span>projetos conduzidos em diferentes contextos organizacionais</span>
-  </div>
+  <div class="stat flash">
 
   <div class="stat">
     <strong>+100</strong>
@@ -595,9 +616,10 @@ e transformação digital.
    Obras autorais adotadas como bibliografia base em projetos pedagógicos de cursos, de formação superior, de tecnologia e gestão do setor público, com presença nas principais bibliotecas acadêmicas do país.
   </p>
 </div>
-          <h3>Projeto Social</h3>
+         <div class="side-block">
+  <h3>Projeto Social</h3>
   <p>
-  Iniciativa classificada entre os 170 projetos selecionados, em um universo superior a 20 mil inscritos na ExpoFavela 2025. Responsável pela concepção técnica e estrutural, abrangendo documentação, desenvolvimento do aplicativo, presença digital e modelagem de indicadores.
+    Iniciativa classificada entre os 170 projetos selecionados...
   </p>
 </div>
         </aside>
