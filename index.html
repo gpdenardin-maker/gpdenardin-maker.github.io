@@ -596,8 +596,9 @@
   }
 
   .menu{
-    display:none;
-  }
+  display:flex;
+  overflow-x:auto;
+}
     }
   </style>
 </head>
@@ -641,7 +642,7 @@
 
 <h1>
   Samanta Denardin<br>
-  <span>Integração entre dados, tecnologia e decisão estratégica</span>
+  <span>Tomada de decisão estratégica baseada em dados, automação e leitura de cenários complexos</span>
 </h1>
 
 <p class="lead">
@@ -672,7 +673,7 @@
 
       <div class="stat">
         <strong>1 mês</strong>
-        <span>para resolver problema crítico em Power BI</span>
+        <span>para resolver problema crítico em Power BI persistente há mais de 2 anos</span>
       </div>
     </div>
 
@@ -876,7 +877,6 @@
 <div class="highlight">
  <strong>Destaque:</strong> projeto selecionado entre mais de 20.000 iniciativas, integrando o grupo dos 174 projetos escolhidos na ExpoFavela
 </div>
-</ul>
           </article>
 
           <article class="card timeline-item">
@@ -1089,14 +1089,31 @@
     © 2026 Samanta Denardin · Portfólio profissional
   </footer>
 <script>
+ <script>
+document.addEventListener("DOMContentLoaded", () => {
   const images = document.querySelectorAll(".slider img");
-  let index = 0;
+  const slider = document.querySelector(".slider");
 
-  setInterval(() => {
-    images[index].classList.remove("active");
-    index = (index + 1) % images.length;
-    images[index].classList.add("active");
-  }, 2000);
+  let index = 0;
+  let interval;
+
+  function startSlider() {
+    interval = setInterval(() => {
+      images[index].classList.remove("active");
+      index = (index + 1) % images.length;
+      images[index].classList.add("active");
+    }, 2500);
+  }
+
+  function stopSlider() {
+    clearInterval(interval);
+  }
+
+  slider.addEventListener("mouseenter", stopSlider);
+  slider.addEventListener("mouseleave", startSlider);
+
+  startSlider();
+});
 </script>
 
 </body>
