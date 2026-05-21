@@ -24,6 +24,8 @@
       --glow-cyan: 0 0 20px rgba(0, 217, 255, 0.3);
       --glow-purple: 0 0 20px rgba(124, 58, 237, 0.3);
       --glow-pink: 0 0 20px rgba(255, 0, 110, 0.3);
+      --active-green: #10b981;
+      --glow-green: 0 0 20px rgba(16, 185, 129, 0.3);
     }
 
     * {
@@ -439,13 +441,13 @@
     /* STATS COM EFEITO DIGITAL */
     .stats-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 24px;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 16px;
       margin-top: 40px;
     }
 
     .stat-card {
-      padding: 24px;
+      padding: 20px;
       border: 1px solid var(--line-strong);
       background: linear-gradient(135deg, rgba(0, 217, 255, 0.03) 0%, rgba(124, 58, 237, 0.03) 100%);
       position: relative;
@@ -474,8 +476,17 @@
       transform: translateY(-4px);
     }
 
+    .stat-card.active-projects {
+      border-color: var(--active-green);
+      background: linear-gradient(135deg, rgba(16, 185, 129, 0.03) 0%, rgba(16, 185, 129, 0.03) 100%);
+    }
+
+    .stat-card.active-projects:hover {
+      box-shadow: var(--glow-green);
+    }
+
     .stat-number {
-      font-size: 2.5rem;
+      font-size: 2rem;
       font-weight: 700;
       color: var(--accent-primary);
       margin-bottom: 8px;
@@ -483,8 +494,12 @@
       z-index: 1;
     }
 
+    .stat-card.active-projects .stat-number {
+      color: var(--active-green);
+    }
+
     .stat-label {
-      font-size: 12px;
+      font-size: 11px;
       color: var(--text-secondary);
       letter-spacing: 1px;
       text-transform: uppercase;
@@ -569,43 +584,93 @@
       margin-bottom: 16px;
     }
 
-    /* ===== TIMELINE ===== */
+    /* ===== TIMELINE MELHORADA ===== */
     .timeline {
-      display: grid;
-      gap: 32px;
+      position: relative;
+      padding: 40px 0 40px 80px;
+    }
+
+    .timeline::before {
+      content: '';
+      position: absolute;
+      left: 26px;
+      top: 0;
+      bottom: 0;
+      width: 2px;
+      background: linear-gradient(180deg, var(--accent-primary) 0%, var(--accent-secondary) 50%, var(--accent-tertiary) 100%);
+      border-radius: 1px;
     }
 
     .timeline-item {
-      padding: 28px;
-      border-left: 3px solid var(--accent-primary);
-      background: linear-gradient(90deg, rgba(0, 217, 255, 0.03) 0%, transparent 100%);
-      border-top: 1px solid var(--line);
+      padding: 28px 32px;
+      margin-bottom: 40px;
+      border-left: none;
+      background: linear-gradient(135deg, rgba(0, 217, 255, 0.03) 0%, transparent 100%);
       position: relative;
       transition: all 0.3s ease;
+      border-radius: 4px;
+      border: 1px solid rgba(0, 217, 255, 0.15);
+    }
+
+    .timeline-item::before {
+      content: '';
+      position: absolute;
+      left: -62px;
+      top: 32px;
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--accent-primary) 0%, var(--accent-secondary) 100%);
+      border: 3px solid var(--bg-dark);
+      transition: all 0.3s ease;
+      box-shadow: 0 0 0 2px var(--accent-primary), 0 0 20px rgba(0, 217, 255, 0.4);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .timeline-item.active::before {
+      border-color: var(--bg-dark);
+      box-shadow: 0 0 0 2px var(--active-green), 0 0 25px rgba(16, 185, 129, 0.6);
+      transform: scale(1.15);
     }
 
     .timeline-item:hover {
-      border-left-color: var(--accent-secondary);
-      background: linear-gradient(90deg, rgba(124, 58, 237, 0.05) 0%, transparent 100%);
+      background: linear-gradient(135deg, rgba(124, 58, 237, 0.08) 0%, transparent 100%);
+      border-color: rgba(124, 58, 237, 0.3);
+      transform: translateX(8px);
+    }
+
+    .timeline-item:hover::before {
+      box-shadow: 0 0 0 2px var(--accent-secondary), 0 0 25px rgba(124, 58, 237, 0.6);
     }
 
     .timeline-header {
       display: flex;
       justify-content: space-between;
-      align-items: flex-start;
+      align-items: center;
       gap: 16px;
       margin-bottom: 16px;
+      flex-wrap: wrap;
     }
 
     .timeline-title {
-      font-size: 16px;
+      font-size: 15px;
       font-weight: 700;
       color: var(--text-primary);
+      flex: 1;
     }
 
     .timeline-title span {
-      color: var(--accent-primary);
+      color: var(--accent-secondary);
       font-weight: 600;
+    }
+
+    .timeline-controls {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-left: auto;
     }
 
     .timeline-date {
@@ -617,17 +682,68 @@
       white-space: nowrap;
     }
 
+    .toggle-switch {
+      position: relative;
+      display: inline-block;
+      width: 44px;
+      height: 24px;
+      cursor: pointer;
+    }
+
+    .toggle-switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+
+    .toggle-slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: rgba(160, 174, 192, 0.2);
+      transition: 0.3s ease;
+      border-radius: 24px;
+      border: 1px solid var(--line-strong);
+    }
+
+    .toggle-slider:before {
+      position: absolute;
+      content: "";
+      height: 18px;
+      width: 18px;
+      left: 2px;
+      bottom: 2px;
+      background-color: var(--text-secondary);
+      transition: 0.3s ease;
+      border-radius: 50%;
+    }
+
+    .toggle-switch input:checked + .toggle-slider {
+      background-color: var(--active-green);
+      border-color: var(--active-green);
+      box-shadow: 0 0 10px rgba(16, 185, 129, 0.4);
+    }
+
+    .toggle-switch input:checked + .toggle-slider:before {
+      transform: translateX(20px);
+      background-color: var(--bg-dark);
+    }
+
     .timeline-item ul {
       list-style: none;
       margin: 12px 0 0;
     }
 
     .timeline-item li {
-      font-size: 14px;
+      font-size: 13px;
       color: var(--text-secondary);
-      margin: 8px 0;
+      margin: 10px 0;
       padding-left: 16px;
       position: relative;
+      line-height: 1.6;
     }
 
     .timeline-item li::before {
@@ -635,6 +751,67 @@
       position: absolute;
       left: 0;
       color: var(--accent-primary);
+    }
+
+    /* ===== EVOLUTION MARKERS ===== */
+    .timeline-evolution {
+      margin-top: 28px;
+      padding-top: 24px;
+      border-top: 1px solid rgba(0, 217, 255, 0.15);
+      position: relative;
+    }
+
+    .evolution-item {
+      font-size: 12px;
+      color: var(--text-secondary);
+      margin: 18px 0;
+      padding-left: 0;
+      position: relative;
+      line-height: 1.6;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .evolution-item:hover {
+      color: var(--accent-primary);
+    }
+
+    .evolution-item::before {
+      content: '';
+      position: absolute;
+      left: -62px;
+      top: 5px;
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      background: var(--bg-dark);
+      border: 2px solid rgba(0, 217, 255, 0.6);
+      transition: all 0.3s ease;
+      box-shadow: 0 0 0 2px rgba(0, 217, 255, 0.2);
+    }
+
+    .evolution-item:hover::before {
+      border-color: var(--accent-secondary);
+      background: var(--accent-secondary);
+      box-shadow: 0 0 0 2px rgba(124, 58, 237, 0.3), 0 0 10px rgba(124, 58, 237, 0.5);
+      transform: scale(1.2);
+    }
+
+    .evolution-date {
+      color: var(--text-muted);
+      font-size: 10px;
+      letter-spacing: 1px;
+      font-weight: 700;
+      text-transform: uppercase;
+      white-space: nowrap;
+      min-width: 45px;
+    }
+
+    .evolution-text {
+      flex: 1;
+      font-size: 12px;
     }
 
     /* ===== TAGS ===== */
@@ -828,11 +1005,16 @@
       }
 
       .stats-grid {
-        grid-template-columns: 1fr;
+        grid-template-columns: repeat(2, 1fr);
       }
 
       .timeline-header {
         flex-direction: column;
+      }
+
+      .timeline-controls {
+        margin-left: 0;
+        width: 100%;
       }
 
       h1 {
@@ -841,6 +1023,28 @@
 
       h2 {
         font-size: 1.8rem;
+      }
+
+      .timeline {
+        padding: 20px 0 20px 30px;
+      }
+
+      .timeline-item::before {
+        left: -39px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .stats-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .timeline-date {
+        font-size: 10px;
+      }
+
+      .timeline-item {
+        padding: 16px;
       }
     }
   </style>
@@ -911,9 +1115,9 @@
               <div class="stat-number">+100</div>
               <div class="stat-label">Projetos Simultâneos</div>
             </div>
-            <div class="stat-card">
-              <div class="stat-number">1 mês</div>
-              <div class="stat-label">Problema Crítico Resolvido</div>
+            <div class="stat-card active-projects">
+              <div class="stat-number" id="active-count">5</div>
+              <div class="stat-label">Projetos Ativos</div>
             </div>
           </div>
         </div>
@@ -933,16 +1137,16 @@
         </div>
 
         <div class="card">
-  <p>
-    Atuação em instituições de referência: Banco Central, Banco do Brasil, Bradesco, Banrisul, CAIXA, Grupo Marista, O Boticário, HAVAN, SESI, Itaipu Binacional, Tigre, Tribunais de Justiça, Prefeituras e Governos.
-  </p>
-  <ul>
-    <li>Projetos de implantação de data centers e infraestrutura tecnológica/ Wireless</li>
-    <li>Portfólio de fábricas de software</li>
-    <li>Desenvolvimento de soluções</li>
-    <li>Automação Inteligente</li>
-    <li>Relatórios de Business Intelligence (BI) e painéis em Power BI</li>
-  </ul>
+          <p>
+            Atuação em instituições de referência: Banco Central, Banco do Brasil, Bradesco, Banrisul, CAIXA, Grupo Marista, O Boticário, HAVAN, SESI, Itaipu Binacional, Tigre, Tribunais de Justiça, Prefeituras e Governos.
+          </p>
+          <ul>
+            <li>Projetos de implantação de data centers e infraestrutura tecnológica / Wireless</li>
+            <li>Portfólio de fábricas de software</li>
+            <li>Desenvolvimento de soluções</li>
+            <li>Automação Inteligente</li>
+            <li>Relatórios de Business Intelligence (BI) e painéis em Power BI</li>
+          </ul>
 
           <div class="tags">
             <span class="tag">PMO & Portfólio</span>
@@ -958,371 +1162,231 @@
       </div>
     </section>
 
-  <!-- EXPERIENCE SECTION -->
-<section class="section" id="experience">
-  <div class="container">
-    <div class="section-header">
-      <span class="section-tag">Trajetória</span>
-      <h2>Experiência Profissional</h2>
-      <p class="section-desc">
-        Ordem cronológica reversa com foco em impacto, complexidade e inovação.
-      </p>
-    </div>
-
-    <div class="timeline">
-
-      <!-- Coordenadora de Comunicação | PMI Rio Grande do Sul -->
-      <div class="timeline-item">
-        <div class="timeline-header">
-          <h3 class="timeline-title">Coordenadora de Comunicação <span>| PMI Rio Grande do Sul</span></h3>
-          <span class="timeline-date">
-            2026 – Atual
-            <span class="toggle-switch active"></span>
-          </span>
-        </div>
-        <div class="timeline-evolution">
-          <div class="evolution-item">↳ Coordenação de Voluntariado <span>| 2025</span></div>
-          <div class="evolution-item">↳ Comissão Eleitoral | Conselho Fiscal <span>| 2023 – 2024</span></div>
-          <div class="evolution-item">↳ Líder de Projetos | Gestão Estratégica <span>| 2021</span></div>
-          <div class="evolution-item">↳ Membro de Equipe <span>| 2019 – 2020</span></div>
-        </div>
-        <ul>
-          <li>Estratégia de comunicação, gestão de site, conteúdo e bases de dados institucionais</li>
-          <li>Desenvolvimento de dashboards estratégicos, relatórios executivos e conformidade LGPD</li>
-          <li>Organização de processos democráticos, transparência e engajamento da comunidade</li>
-        </ul>
-      </div>
-
-      <!-- Consultora de Gestão de Projetos | Projeto Nossas Histórias • ONG -->
-      <div class="timeline-item">
-        <div class="timeline-header">
-          <h3 class="timeline-title">Consultora de Gestão de Projetos <span>| Projeto Nossas Histórias • ONG</span></h3>
-          <span class="timeline-date">
-            2024 – Atual
-            <span class="toggle-switch active"></span>
-          </span>
-        </div>
-        <ul>
-          <li>Consultoria especializada em projetos sociais voltados a crianças neurodivergentes e familiares</li>
-          <li>Criação e padronização de documentação, artefatos e metodologias de gestão de projetos</li>
-          <li>Estruturação de processos, fluxos de trabalho e indicadores de impacto social</li>
-        </ul>
-      </div>
-
-      <!-- Automação de Processos | Soluções Digitais -->
-      <div class="timeline-item">
-        <div class="timeline-header">
-          <h3 class="timeline-title">Automação de Processos <span>| Soluções Digitais</span></h3>
-          <span class="timeline-date">
-            2024 – Atual
-            <span class="toggle-switch active"></span>
-          </span>
-        </div>
-        <ul>
-          <li>Desenvolvimento de automações inteligentes com RPA, APIs e integração de sistemas corporativos</li>
-          <li>Estruturação de fluxos otimizados, redução de retrabalho e ganho expressivo de performance</li>
-          <li>Conformidade com LGPD, ISO 20000, ISO 27001 e painéis de acompanhamento em tempo real</li>
-        </ul>
-      </div>
-
-      <!-- Autora & Produtora Intelectual | Publicações -->
-      <div class="timeline-item">
-        <div class="timeline-header">
-          <h3 class="timeline-title">Autora & Produtora Intelectual <span>| Publicações</span></h3>
-          <span class="timeline-date">
-            2024 – Atual
-            <span class="toggle-switch active"></span>
-          </span>
-        </div>
-        <ul>
-          <li>2 livros publicados sobre gestão de projetos e transformação digital</li>
-          <li>10 obras em desenvolvimento com temas de inovação, liderança e governança de TI</li>
-          <li>Conteúdo adotado como referência acadêmica em universidades e cursos</li>
-        </ul>
-      </div>
-
-      <!-- Gestora de Portfólio | Stefanini Group -->
-      <div class="timeline-item">
-        <div class="timeline-header">
-          <h3 class="timeline-title">Gestora de Portfólio <span>| Stefanini Group</span></h3>
-          <span class="timeline-date">
-            2024
-            <span class="toggle-switch"></span>
-          </span>
-        </div>
-        <ul>
-          <li>Priorização estratégica por valor, risco e alinhamento aos objetivos do negócio</li>
-          <li>Inteligência de dados para suporte à decisão da alta liderança</li>
-          <li>Governança e controle de múltiplos projetos simultâneos e complexos</li>
-        </ul>
-      </div>
-
-      <!-- Consultora de Projetos e Governança TI | Governo RS – SEFAZ -->
-      <div class="timeline-item">
-        <div class="timeline-header">
-          <h3 class="timeline-title">Consultora de Projetos e Governança TI <span>| Governo RS – SEFAZ</span></h3>
-          <span class="timeline-date">
-            2022 – 2024
-            <span class="toggle-switch"></span>
-          </span>
-        </div>
-        <ul>
-          <li>Gestão estratégica, processos, mudança organizacional e normativas públicas</li>
-          <li>Planos diretores, normas ISO, LGPD e estruturação de governança</li>
-          <li>Dashboards, indicadores e relatórios para acompanhamento de alto nível</li>
-        </ul>
-      </div>
-
-      <!-- Consultora de Projetos | MBS Consulting -->
-      <div class="timeline-item">
-        <div class="timeline-header">
-          <h3 class="timeline-title">Consultora de Projetos <span>| MBS Consulting</span></h3>
-          <span class="timeline-date">
-            2023 – 2024
-            <span class="toggle-switch"></span>
-          </span>
-        </div>
-        <ul>
-          <li>Power BI: dashboards avançados, modelagem e análise crítica de dados</li>
-          <li>Resolução de problemas complexos e redução de tempo em processos críticos</li>
-          <li>PMO, boas práticas, governança e gestão de riscos</li>
-        </ul>
-      </div>
-
-      <!-- Analista de Projetos / PMO | Teletex IT Solutions -->
-      <div class="timeline-item">
-        <div class="timeline-header">
-          <h3 class="timeline-title">Analista de Projetos / PMO <span>| Teletex IT Solutions</span></h3>
-          <span class="timeline-date">
-            2020 – 2022
-            <span class="toggle-switch"></span>
-          </span>
-        </div>
-        <ul>
-          <li>+100 projetos: Banco Central, BB, Bradesco, Tribunais, Prefeituras e grandes contas</li>
-          <li>Infraestrutura: data centers, redes, wireless, sensores e ambientes críticos</li>
-          <li>Implantação ISO 20000/27001, LGPD, SLA e relatórios estratégicos</li>
-        </ul>
-      </div>
-
-      <!-- Gestora de TI e Projetos | RJ Lentes de Contato -->
-      <div class="timeline-item">
-        <div class="timeline-header">
-          <h3 class="timeline-title">Gestora de TI e Projetos <span>| RJ Lentes de Contato</span></h3>
-          <span class="timeline-date">
-            Anteriores a 2020
-            <span class="toggle-switch"></span>
-          </span>
-        </div>
-        <ul>
-          <li>Estruturação completa de TI: equipamentos, redes, backup e segurança da informação</li>
-          <li>Automação comercial, integração de sistemas e suporte à tomada de decisão</li>
-          <li>Implantação de políticas, processos e rotinas de manutenção</li>
-        </ul>
-      </div>
-
-      <!-- Trader Independente | Mercado Financeiro -->
-      <div class="timeline-item">
-        <div class="timeline-header">
-          <h3 class="timeline-title">Trader Independente <span>| Mercado Financeiro</span></h3>
-          <span class="timeline-date">
-            2019 – Atual
-            <span class="toggle-switch active"></span>
-          </span>
-        </div>
-        <ul>
-          <li>Análise macroeconômica e comportamento de ativos globais</li>
-          <li>Price action, análise técnica e gestão inteligente de risco</li>
-          <li>Acompanhamento contínuo de cenários e eventos econômicos</li>
-        </ul>
-      </div>
-
-    </div>
-  </div>
-</section>
-
     <!-- EXPERIENCE SECTION -->
-<section class="section" id="experience">
-  <div class="container">
-    <div class="section-header">
-      <span class="section-tag">Trajetória</span>
-      <h2>Experiência Profissional</h2>
-      <p class="section-desc">
-        Ordem cronológica reversa com foco em impacto, complexidade e inovação.
-      </p>
-    </div>
-
-    <div class="timeline">
-
-      <!-- Coordenadora de Comunicação | PMI Rio Grande do Sul -->
-      <div class="timeline-item">
-        <div class="timeline-header">
-          <h3 class="timeline-title">Coordenadora de Comunicação <span>| PMI Rio Grande do Sul</span></h3>
-          <span class="timeline-date">
-            2026 – Atual
-            <span class="toggle-switch active"></span>
-          </span>
+    <section class="section" id="experience">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-tag">Trajetória</span>
+          <h2>Experiência Profissional</h2>
+          <p class="section-desc">
+            Timeline interativa com indicadores de projetos ativos. Utilize os toggles para marcar suas atividades em andamento.
+          </p>
         </div>
-        <div class="timeline-evolution">
-          <div class="evolution-item">↳ Coordenação de Voluntariado <span>| 2025</span></div>
-          <div class="evolution-item">↳ Comissão Eleitoral | Conselho Fiscal <span>| 2023 – 2024</span></div>
-          <div class="evolution-item">↳ Líder de Projetos | Gestão Estratégica <span>| 2021</span></div>
-          <div class="evolution-item">↳ Membro de Equipe <span>| 2019 – 2020</span></div>
+
+        <div class="timeline">
+
+          <!-- Coordenadora de Comunicação | PMI Rio Grande do Sul -->
+          <div class="timeline-item active" data-active="true">
+            <div class="timeline-header">
+              <h3 class="timeline-title">Coordenadora de Comunicação <span>| PMI Rio Grande do Sul</span></h3>
+              <div class="timeline-controls">
+                <span class="timeline-date">2026 – Atual</span>
+                <label class="toggle-switch">
+                  <input type="checkbox" checked data-project="pmi-comunicacao">
+                  <span class="toggle-slider"></span>
+                </label>
+              </div>
+            </div>
+            <ul>
+              <li>Estratégia de comunicação, gestão de site, conteúdo e bases de dados institucionais</li>
+              <li>Desenvolvimento de dashboards estratégicos, relatórios executivos e conformidade LGPD</li>
+              <li>Organização de processos democráticos, transparência e engajamento da comunidade</li>
+            </ul>
+            
+            <div class="timeline-evolution">
+              <div class="evolution-item">
+                <span class="evolution-date">2025</span>
+                <span class="evolution-text">Coordenação de Voluntariado</span>
+              </div>
+              <div class="evolution-item">
+                <span class="evolution-date">2023</span>
+                <span class="evolution-text">Comissão Eleitoral | Conselho Fiscal</span>
+              </div>
+              <div class="evolution-item">
+                <span class="evolution-date">2021</span>
+                <span class="evolution-text">Líder de Projetos | Gestão Estratégica</span>
+              </div>
+              <div class="evolution-item">
+                <span class="evolution-date">2019</span>
+                <span class="evolution-text">Membro de Equipe</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Consultora de Gestão de Projetos | Projeto Nossas Histórias -->
+          <div class="timeline-item active" data-active="true">
+            <div class="timeline-header">
+              <h3 class="timeline-title">Consultora de Gestão de Projetos <span>| Projeto Nossas Histórias • ONG</span></h3>
+              <div class="timeline-controls">
+                <span class="timeline-date">2024 – Atual</span>
+                <label class="toggle-switch">
+                  <input type="checkbox" checked data-project="nossas-historias">
+                  <span class="toggle-slider"></span>
+                </label>
+              </div>
+            </div>
+            <ul>
+              <li>Consultoria especializada em projetos sociais voltados a crianças neurodivergentes e familiares</li>
+              <li>Criação e padronização de documentação, artefatos e metodologias de gestão de projetos</li>
+              <li>Estruturação de processos, fluxos de trabalho e indicadores de impacto social</li>
+            </ul>
+          </div>
+
+          <!-- Automação de Processos | Soluções Digitais -->
+          <div class="timeline-item active" data-active="true">
+            <div class="timeline-header">
+              <h3 class="timeline-title">Automação de Processos <span>| Soluções Digitais</span></h3>
+              <div class="timeline-controls">
+                <span class="timeline-date">2024 – Atual</span>
+                <label class="toggle-switch">
+                  <input type="checkbox" checked data-project="automacao-processos">
+                  <span class="toggle-slider"></span>
+                </label>
+              </div>
+            </div>
+            <ul>
+              <li>Desenvolvimento de automações inteligentes com RPA, APIs e integração de sistemas corporativos</li>
+              <li>Estruturação de fluxos otimizados, redução de retrabalho e ganho expressivo de performance</li>
+              <li>Conformidade com LGPD, ISO 20000, ISO 27001 e painéis de acompanhamento em tempo real</li>
+            </ul>
+          </div>
+
+          <!-- Autora & Produtora Intelectual | Publicações -->
+          <div class="timeline-item active" data-active="true">
+            <div class="timeline-header">
+              <h3 class="timeline-title">Autora & Produtora Intelectual <span>| Publicações</span></h3>
+              <div class="timeline-controls">
+                <span class="timeline-date">2024 – Atual</span>
+                <label class="toggle-switch">
+                  <input type="checkbox" checked data-project="autora-publicacoes">
+                  <span class="toggle-slider"></span>
+                </label>
+              </div>
+            </div>
+            <ul>
+              <li>2 livros publicados sobre gestão de projetos e transformação digital</li>
+              <li>10 obras em desenvolvimento com temas de inovação, liderança e governança de TI</li>
+              <li>Conteúdo adotado como referência acadêmica em universidades e cursos</li>
+            </ul>
+          </div>
+
+          <!-- Trader Independente | Mercado Financeiro -->
+          <div class="timeline-item active" data-active="true">
+            <div class="timeline-header">
+              <h3 class="timeline-title">Trader Independente <span>| Mercado Financeiro</span></h3>
+              <div class="timeline-controls">
+                <span class="timeline-date">2019 – Atual</span>
+                <label class="toggle-switch">
+                  <input type="checkbox" checked data-project="trader-financeiro">
+                  <span class="toggle-slider"></span>
+                </label>
+              </div>
+            </div>
+            <ul>
+              <li>Análise macroeconômica e comportamento de ativos globais</li>
+              <li>Price action, análise técnica e gestão inteligente de risco</li>
+              <li>Acompanhamento contínuo de cenários e eventos econômicos</li>
+            </ul>
+          </div>
+
+          <!-- Gestora de Portfólio | Stefanini Group -->
+          <div class="timeline-item">
+            <div class="timeline-header">
+              <h3 class="timeline-title">Gestora de Portfólio <span>| Stefanini Group</span></h3>
+              <div class="timeline-controls">
+                <span class="timeline-date">2024</span>
+                <label class="toggle-switch">
+                  <input type="checkbox" data-project="stefanini-portfolio">
+                  <span class="toggle-slider"></span>
+                </label>
+              </div>
+            </div>
+            <ul>
+              <li>Priorização estratégica por valor, risco e alinhamento aos objetivos do negócio</li>
+              <li>Inteligência de dados para suporte à decisão da alta liderança</li>
+              <li>Governança e controle de múltiplos projetos simultâneos e complexos</li>
+            </ul>
+          </div>
+
+          <!-- Consultora de Projetos e Governança TI | Governo RS -->
+          <div class="timeline-item">
+            <div class="timeline-header">
+              <h3 class="timeline-title">Consultora de Projetos e Governança TI <span>| Governo RS – SEFAZ</span></h3>
+              <div class="timeline-controls">
+                <span class="timeline-date">2022 – 2024</span>
+                <label class="toggle-switch">
+                  <input type="checkbox" data-project="sefaz-governanca">
+                  <span class="toggle-slider"></span>
+                </label>
+              </div>
+            </div>
+            <ul>
+              <li>Gestão estratégica, processos, mudança organizacional e normativas públicas</li>
+              <li>Planos diretores, normas ISO, LGPD e estruturação de governança</li>
+              <li>Dashboards, indicadores e relatórios para acompanhamento de alto nível</li>
+            </ul>
+          </div>
+
+          <!-- Consultora de Projetos | MBS Consulting -->
+          <div class="timeline-item">
+            <div class="timeline-header">
+              <h3 class="timeline-title">Consultora de Projetos <span>| MBS Consulting</span></h3>
+              <div class="timeline-controls">
+                <span class="timeline-date">2023 – 2024</span>
+                <label class="toggle-switch">
+                  <input type="checkbox" data-project="mbs-powerbi">
+                  <span class="toggle-slider"></span>
+                </label>
+              </div>
+            </div>
+            <ul>
+              <li>Power BI: dashboards avançados, modelagem e análise crítica de dados</li>
+              <li>Resolução de problemas complexos e redução de tempo em processos críticos</li>
+              <li>PMO, boas práticas, governança e gestão de riscos</li>
+            </ul>
+          </div>
+
+          <!-- Analista de Projetos / PMO | Teletex IT Solutions -->
+          <div class="timeline-item">
+            <div class="timeline-header">
+              <h3 class="timeline-title">Analista de Projetos / PMO <span>| Teletex IT Solutions</span></h3>
+              <div class="timeline-controls">
+                <span class="timeline-date">2020 – 2022</span>
+                <label class="toggle-switch">
+                  <input type="checkbox" data-project="teletex-pmo">
+                  <span class="toggle-slider"></span>
+                </label>
+              </div>
+            </div>
+            <ul>
+              <li>+100 projetos: Banco Central, BB, Bradesco, Tribunais, Prefeituras e grandes contas</li>
+              <li>Infraestrutura: data centers, redes, wireless, sensores e ambientes críticos</li>
+              <li>Implantação ISO 20000/27001, LGPD, SLA e relatórios estratégicos</li>
+            </ul>
+          </div>
+
+          <!-- Gestora de TI e Projetos | RJ Lentes de Contato -->
+          <div class="timeline-item">
+            <div class="timeline-header">
+              <h3 class="timeline-title">Gestora de TI e Projetos <span>| RJ Lentes de Contato</span></h3>
+              <div class="timeline-controls">
+                <span class="timeline-date">Anteriores a 2020</span>
+                <label class="toggle-switch">
+                  <input type="checkbox" data-project="rj-lentes">
+                  <span class="toggle-slider"></span>
+                </label>
+              </div>
+            </div>
+            <ul>
+              <li>Estruturação completa de TI: equipamentos, redes, backup e segurança da informação</li>
+              <li>Automação comercial, integração de sistemas e suporte à tomada de decisão</li>
+              <li>Implantação de políticas, processos e rotinas de manutenção</li>
+            </ul>
+          </div>
+
         </div>
-        <ul>
-          <li>Estratégia de comunicação, gestão de site, conteúdo e bases de dados institucionais</li>
-          <li>Desenvolvimento de dashboards estratégicos, relatórios executivos e conformidade LGPD</li>
-          <li>Organização de processos democráticos, transparência e engajamento da comunidade</li>
-        </ul>
       </div>
-
-      <!-- Consultora de Gestão de Projetos | Projeto Nossas Histórias • ONG -->
-      <div class="timeline-item">
-        <div class="timeline-header">
-          <h3 class="timeline-title">Consultora de Gestão de Projetos <span>| Projeto Nossas Histórias • ONG</span></h3>
-          <span class="timeline-date">
-            2024 – Atual
-            <span class="toggle-switch active"></span>
-          </span>
-        </div>
-        <ul>
-          <li>Consultoria especializada em projetos sociais voltados a crianças neurodivergentes e familiares</li>
-          <li>Criação e padronização de documentação, artefatos e metodologias de gestão de projetos</li>
-          <li>Estruturação de processos, fluxos de trabalho e indicadores de impacto social</li>
-        </ul>
-      </div>
-
-      <!-- Automação de Processos | Soluções Digitais -->
-      <div class="timeline-item">
-        <div class="timeline-header">
-          <h3 class="timeline-title">Automação de Processos <span>| Soluções Digitais</span></h3>
-          <span class="timeline-date">
-            2024 – Atual
-            <span class="toggle-switch active"></span>
-          </span>
-        </div>
-        <ul>
-          <li>Desenvolvimento de automações inteligentes com RPA, APIs e integração de sistemas corporativos</li>
-          <li>Estruturação de fluxos otimizados, redução de retrabalho e ganho expressivo de performance</li>
-          <li>Conformidade com LGPD, ISO 20000, ISO 27001 e painéis de acompanhamento em tempo real</li>
-        </ul>
-      </div>
-
-      <!-- Autora & Produtora Intelectual | Publicações -->
-      <div class="timeline-item">
-        <div class="timeline-header">
-          <h3 class="timeline-title">Autora & Produtora Intelectual <span>| Publicações</span></h3>
-          <span class="timeline-date">
-            2024 – Atual
-            <span class="toggle-switch active"></span>
-          </span>
-        </div>
-        <ul>
-          <li>2 livros publicados sobre gestão de projetos e transformação digital</li>
-          <li>10 obras em desenvolvimento com temas de inovação, liderança e governança de TI</li>
-          <li>Conteúdo adotado como referência acadêmica em universidades e cursos</li>
-        </ul>
-      </div>
-
-      <!-- Gestora de Portfólio | Stefanini Group -->
-      <div class="timeline-item">
-        <div class="timeline-header">
-          <h3 class="timeline-title">Gestora de Portfólio <span>| Stefanini Group</span></h3>
-          <span class="timeline-date">
-            2024
-            <span class="toggle-switch"></span>
-          </span>
-        </div>
-        <ul>
-          <li>Priorização estratégica por valor, risco e alinhamento aos objetivos do negócio</li>
-          <li>Inteligência de dados para suporte à decisão da alta liderança</li>
-          <li>Governança e controle de múltiplos projetos simultâneos e complexos</li>
-        </ul>
-      </div>
-
-      <!-- Consultora de Projetos e Governança TI | Governo RS – SEFAZ -->
-      <div class="timeline-item">
-        <div class="timeline-header">
-          <h3 class="timeline-title">Consultora de Projetos e Governança TI <span>| Governo RS – SEFAZ</span></h3>
-          <span class="timeline-date">
-            2022 – 2024
-            <span class="toggle-switch"></span>
-          </span>
-        </div>
-        <ul>
-          <li>Gestão estratégica, processos, mudança organizacional e normativas públicas</li>
-          <li>Planos diretores, normas ISO, LGPD e estruturação de governança</li>
-          <li>Dashboards, indicadores e relatórios para acompanhamento de alto nível</li>
-        </ul>
-      </div>
-
-      <!-- Consultora de Projetos | MBS Consulting -->
-      <div class="timeline-item">
-        <div class="timeline-header">
-          <h3 class="timeline-title">Consultora de Projetos <span>| MBS Consulting</span></h3>
-          <span class="timeline-date">
-            2023 – 2024
-            <span class="toggle-switch"></span>
-          </span>
-        </div>
-        <ul>
-          <li>Power BI: dashboards avançados, modelagem e análise crítica de dados</li>
-          <li>Resolução de problemas complexos e redução de tempo em processos críticos</li>
-          <li>PMO, boas práticas, governança e gestão de riscos</li>
-        </ul>
-      </div>
-
-      <!-- Analista de Projetos / PMO | Teletex IT Solutions -->
-      <div class="timeline-item">
-        <div class="timeline-header">
-          <h3 class="timeline-title">Analista de Projetos / PMO <span>| Teletex IT Solutions</span></h3>
-          <span class="timeline-date">
-            2020 – 2022
-            <span class="toggle-switch"></span>
-          </span>
-        </div>
-        <ul>
-          <li>+100 projetos: Banco Central, BB, Bradesco, Tribunais, Prefeituras e grandes contas</li>
-          <li>Infraestrutura: data centers, redes, wireless, sensores e ambientes críticos</li>
-          <li>Implantação ISO 20000/27001, LGPD, SLA e relatórios estratégicos</li>
-        </ul>
-      </div>
-
-      <!-- Gestora de TI e Projetos | RJ Lentes de Contato -->
-      <div class="timeline-item">
-        <div class="timeline-header">
-          <h3 class="timeline-title">Gestora de TI e Projetos <span>| RJ Lentes de Contato</span></h3>
-          <span class="timeline-date">
-            Anteriores a 2020
-            <span class="toggle-switch"></span>
-          </span>
-        </div>
-        <ul>
-          <li>Estruturação completa de TI: equipamentos, redes, backup e segurança da informação</li>
-          <li>Automação comercial, integração de sistemas e suporte à tomada de decisão</li>
-          <li>Implantação de políticas, processos e rotinas de manutenção</li>
-        </ul>
-      </div>
-
-      <!-- Trader Independente | Mercado Financeiro -->
-      <div class="timeline-item">
-        <div class="timeline-header">
-          <h3 class="timeline-title">Trader Independente <span>| Mercado Financeiro</span></h3>
-          <span class="timeline-date">
-            2019 – Atual
-            <span class="toggle-switch active"></span>
-          </span>
-        </div>
-        <ul>
-          <li>Análise macroeconômica e comportamento de ativos globais</li>
-          <li>Price action, análise técnica e gestão inteligente de risco</li>
-          <li>Acompanhamento contínuo de cenários e eventos econômicos</li>
-        </ul>
-      </div>
-
-    </div>
-  </div>
-</section>
+    </section>
 
     <!-- SKILLS SECTION -->
     <section class="section" id="skills">
@@ -1519,6 +1583,43 @@
           target.scrollIntoView({ behavior: 'smooth' });
         }
       });
+    });
+
+    // CONTADOR DE PROJETOS ATIVOS
+    function updateActiveCount() {
+      const activeCheckboxes = document.querySelectorAll('.toggle-switch input:checked');
+      const count = activeCheckboxes.length;
+      document.getElementById('active-count').textContent = count;
+    }
+
+    // Adiciona listeners aos toggles
+    document.querySelectorAll('.toggle-switch input').forEach(checkbox => {
+      checkbox.addEventListener('change', function() {
+        const timelineItem = this.closest('.timeline-item');
+        
+        if (this.checked) {
+          timelineItem.classList.add('active');
+        } else {
+          timelineItem.classList.remove('active');
+        }
+        
+        updateActiveCount();
+        
+        // Armazena preferência no localStorage
+        localStorage.setItem(this.dataset.project, this.checked);
+      });
+    });
+
+    // Carrega preferências salvas
+    window.addEventListener('load', () => {
+      document.querySelectorAll('.toggle-switch input').forEach(checkbox => {
+        const saved = localStorage.getItem(checkbox.dataset.project);
+        if (saved === 'false') {
+          checkbox.checked = false;
+          checkbox.closest('.timeline-item').classList.remove('active');
+        }
+      });
+      updateActiveCount();
     });
   </script>
 
